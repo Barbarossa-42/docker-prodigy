@@ -1,4 +1,4 @@
-FROM prodigy:app-global
+FROM lukasprudil/prodigy:app-global
 
 # check files for every request
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="1"

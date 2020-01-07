@@ -1,4 +1,4 @@
-FROM prodigy:app-global
+FROM lukasprudil/prodigy:app-global
 
 # php files in production mode cannot be changed
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0"
