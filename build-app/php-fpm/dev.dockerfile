@@ -17,7 +17,7 @@ RUN set -xe \
     && apk del .build-deps
 
 # Copy xdebug configuration
-COPY config/xdebug.ini /usr/local/etc/php/conf.d/
+COPY /build-app/php-fpm/config/xdebug.ini /usr/local/etc/php/conf.d/
 
 # blackfire setup
 #RUN set -xeo pipefail \

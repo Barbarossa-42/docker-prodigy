@@ -60,9 +60,9 @@ RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/test
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # Opcache configuration
-COPY config/opcache.ini $PHP_INI_DIR/conf.d/
+COPY /build-app/php-fpm/config/opcache.ini $PHP_INI_DIR/conf.d/
 
-COPY config/fpm/php-fpm.conf /usr/local/etc/
-COPY config/fpm/pool.d /usr/local/etc/pool.d
+COPY /build-app/php-fpm/config/fpm/php-fpm.conf /usr/local/etc/
+COPY /build-app/php-fpm/config/fpm/pool.d /usr/local/etc/pool.d
 
 WORKDIR /srv/app
