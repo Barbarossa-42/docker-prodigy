@@ -9,12 +9,15 @@ ENV PHPIZE_DEPS \
     gcc \
     make \
     pkgconf \
-    re2c
+    re2c \
+    bash
+
 RUN set -xe \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
     && pecl install xdebug \
-    && apk del .build-deps
+    && apk del .build-deps \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 # Copy xdebug configuration
 COPY /build-app/php-fpm/config/xdebug.ini /usr/local/etc/php/conf.d/

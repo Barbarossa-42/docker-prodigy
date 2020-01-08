@@ -26,10 +26,6 @@ ENV PHPIZE_DEPS \
 RUN apk add --no-cache --virtual .persistent-deps \
     # for intl extension
     icu-libs \
-    libssl1.1 \
-    libxml2-dev \
-    # for amqp
-    libressl-dev \
     # for GD
     freetype \
     libpng \
@@ -55,13 +51,26 @@ RUN set -xe \
     && docker-php-ext-configure mbstring --enable-mbstring \
     && docker-php-ext-install -j$(nproc) gd bcmath intl pcntl mysqli pdo_mysql mbstring iconv xsl opcache
 
-# Hack for Nette/Utils iconv
+### Hack for Nette/Utils iconv ###
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
-# Opcache configuration
+### REDIS ###
+ENV PHP_REDIS_VERSION 5.1.1
+RUN git clone --branch ${PHP_REDIS_VERSION} https://github.com/phpredis/phpredis /tmp/phpredis \
+        && cd /tmp/phpredis \
+        && phpize  \
+        && ./configure  \
+        && make  \
+        && make install \
+        && make test
+
+COPY /build-app/php-fpm/config/redis.ini /usr/local/etc/php/conf.d/
+
+### Opcache  ###
 COPY /build-app/php-fpm/config/opcache.ini $PHP_INI_DIR/conf.d/
 
+### Global PHP config ###
 COPY /build-app/php-fpm/config/fpm/php-fpm.conf /usr/local/etc/
 COPY /build-app/php-fpm/config/fpm/pool.d /usr/local/etc/pool.d
 
