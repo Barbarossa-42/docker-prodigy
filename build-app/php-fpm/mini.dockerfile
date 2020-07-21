@@ -10,6 +10,7 @@ ENV PHPIZE_DEPS \
     libc-dev \
     pcre-dev \
     make \
+    git \
     pkgconf \
     re2c \
     # for GD
