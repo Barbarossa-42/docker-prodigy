@@ -1,6 +1,5 @@
-FROM lukasprudil/prodigy:app-global
+FROM lukasprudil/prodigy:app-mini
 
-# php files in production mode cannot be changed
-ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0"
+COPY ./build-app/php-fpm/config/opcache.ini $PHP_INI_DIR/conf.d/
 
-COPY /build-app/php-fpm/config/php7.prod.ini /usr/local/etc/php/conf.d/
+WORKDIR /app
