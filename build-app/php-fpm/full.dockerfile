@@ -1,4 +1,4 @@
-# copied prooph/php:7.4-fpm
+# copied prooph/php:7.4-fpm - 2d596a4
 FROM php:7.4-fpm-alpine3.12
 
 ENV PHPIZE_DEPS \
@@ -36,11 +36,12 @@ RUN apk add --no-cache --virtual .persistent-deps \
     # for GD
     freetype \
     libpng \
+    libwebp-dev \
     libjpeg-turbo \
     libxslt \
     # for mbstring
     oniguruma-dev \
-    libgcrypt
+    libgcrypt gmp-dev
 
 RUN set -xe \
     # workaround for rabbitmq linking issue
@@ -50,7 +51,7 @@ RUN set -xe \
     && ln -s /usr/lib/libgpg-error.so.0 /usr/lib/libgpg-error.so \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
-    && docker-php-ext-configure gd --enable-gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+    && docker-php-ext-configure gd --enable-gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ --with-webp=/usr/include/ \
     && docker-php-ext-configure bcmath --enable-bcmath \
     && docker-php-ext-configure intl --enable-intl \
     && docker-php-ext-configure pcntl --enable-pcntl \
@@ -59,7 +60,7 @@ RUN set -xe \
     && docker-php-ext-configure mbstring --enable-mbstring \
     && docker-php-ext-configure soap --enable-soap \
     && docker-php-ext-configure opcache --enable-opcache \
-    && docker-php-ext-install -j$(nproc) gd bcmath intl pcntl mysqli pdo_mysql mbstring soap iconv opcache sockets xsl
+    && docker-php-ext-install -j$(nproc) gd bcmath intl pcntl mysqli pdo_mysql mbstring soap iconv opcache sockets xsl gmp
 
 # Redis
 ENV PHP_REDIS_VERSION 5.3.1
