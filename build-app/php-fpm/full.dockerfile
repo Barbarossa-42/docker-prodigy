@@ -78,7 +78,6 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-RUN composer global require hirak/prestissimo
 
 # Clean
 RUN apk del .build-deps \
