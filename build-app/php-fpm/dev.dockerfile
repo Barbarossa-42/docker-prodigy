@@ -14,7 +14,7 @@ ENV PHPIZE_DEPS \
 RUN set -xe \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
-    && pecl -d preferred_state=beta install xdebug \
+    && pecl -d install xdebug \
     && apk del .build-deps
 
 # Copy custom configuration
