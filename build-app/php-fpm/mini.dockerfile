@@ -71,8 +71,8 @@ RUN git clone --branch ${PHP_REDIS_VERSION} https://github.com/phpredis/phpredis
     && make install \
     && make test
 
-### Hack for Nette/Utils iconv ###
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
+### fix work iconv library with alpine ###
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # Clean
